@@ -1,0 +1,32 @@
+
+M1.6 × 5 mm self-tapping / thread-forming screws, 5 per board (15 total, buy ~20).
+
+Details that matter:
+- Length 5 mm is the point. Framework's original mainboard screws are M1.6 × 1.5 Torx T5 — in this tray the screw passes through 1.1 mm of PCB plus the 1 mm locating tip before reaching plastic, so the originals would leave less than half a millimeter of bite. They're fine as temporary alignment pins, not retention. A 5 mm screw gets ~2.9 mm of thread into the standoff.
+- Head: low-profile (pan or wafer), ≤ Ø5.5 mm — Framework's keep-out around the mounting holes on the board top is tight, and a tall head can foul the input-cover/component clearance. The drive doesn't matter (T5 to match Framework, or PH0/JIS — whatever you can get in that size).
+- Thread-forming for plastic (the kind with a slightly spaced thread, e.g. "Schrauben für Thermoplaste"/Delta PT style) hold noticeably better in PETG than machine-thread M1.6 forced into a pilot — but plain M1.6 machine screws will also self-thread into a Ø1.5 hole acceptably for a part that doesn't see vibration.
+- Torque: finger-snug only. You're threading into PETG; it strips before it warns you.
+
+The upgrade path if you want something more serviceable (boards going in and out repeatedly): drill the five standoffs out to Ø3.2, press in M2 brass heat-set inserts (~3.5 mm OD × 4 mm), and use M2 × 5 low-profile screws. That was the spec's preferred option — I modeled the pilot version because the insert can't physically be installed past the Ø4.2 locating tip without drilling anyway. One caveat from the open-questions list: nobody verified that the Framework PCB mounting holes pass a Ø2.0 shank — check one hole with an M2 screw before committing to inserts; if it doesn't fit, M1.6 it is.
+
+Everything else in the build uses the M3 hardware from the BOM in SPEC-RevB.md §8 (19× M3 heat-set inserts, 16× M3×8 SHCS, 3× M3×8 thumbscrews, 8× Ø3×8 dowel pins, 6× M6 + cage nuts for the rack).
+
+
+
+--
+
+For bolting the bay modules (and side holders) together you need:
+
+**Per joint (there are 4 joints: bay1–bay2, bay2–bay3, left holder–bay1, bay3–right holder):**
+- **4× M3 × 8 mm socket head cap screws (SHCS)** — 16 total
+- **4× M3 brass heat-set inserts**, ~Ø4.6 OD × 5.7 mm long (pressed into Ø4.0 holes) — 12 in the bay right-walls + 4 in the left holder = 16 for the joints
+- **2× Ø3 × 8 mm steel dowel pins** for alignment — 8 total
+
+**Plus 3 more M3 inserts** (one in each bay's front header) and **3× M3 × 8 knurled thumbscrews** that lock the carrier trays — that's how the BOM gets to 19 inserts total (buy ~25).
+
+Assembly details that matter:
+- Screw direction: seam screws are driven **from inside the right-hand module of each pair** (heads end up in bay 2 and bay 3), through the Ø3.4 through-holes in that module's left wall, into the inserts in the neighbor's right wall. Use a ball-end or stubby hex driver — you're working inside a 114 mm-wide bay with a horizontal screw axis.
+- Left holder: screws driven from inside bay 1. Right holder: screws driven from outside, through the counterbored holes in the holder plate.
+- Length matters: M3 × 8 gives ~4 mm of thread engagement and the tip stays inside the 6.2 mm insert hole without blowing through the 7 mm wall — don't substitute M3 × 10 (that was changed in the design review for exactly that reason).
+- Install inserts at ~250 °C and brace the bay wall while pressing (only 0.8 mm of web behind the insert holes).
+- PETG creeps: re-torque the seam screws after the first week of warm operation.

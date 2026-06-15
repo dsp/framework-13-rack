@@ -1,0 +1,10 @@
+# Scratch / session files
+session.txt
+design-docs/framework-cad/out.txt
+
+# Internal AI design-process transcripts (not part of the deliverable)
+design-docs/workflow-transcripts/
+
+# Stale .3mf print projects: the build script only exports STL, so these lag the
+# current geometry (pre-corbel). Re-slice from the STLs instead of shipping stale ones.
+stl/*.3mf
