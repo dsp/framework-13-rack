@@ -1,0 +1,52 @@
+HARDWARE — Framework 13 three-bay 1U rack
+Full BOM: design-docs/SPEC-RevB.md §8.
+
+SHOPPING LIST
+  25×  M3 brass heat-set inserts, ~Ø4.6 OD × 5.7 mm long   (19 used)
+  16×  M3 × 8 socket head cap screws
+   3×  M3 × 8 knurled thumbscrews
+   8×  Ø3 × 8 steel dowel pins
+   6×  M6 rack screws + cage nuts
+  20×  M2 × 6 pan-head self-tapping screws                 (optional; 15 used — pegs need none)
+
+BOARD MOUNTING
+The default is screw-free: press a RetainerPeg through two or three of each board's
+mounting holes into the Ø1.7 standoff pilots. If you prefer screws, the same pilots take
+M2 × 6 pan-head self-tappers; thread-forming types made for thermoplastics (Delta PT
+style) hold best in PETG. Keep heads low-profile (pan or wafer, ≤ Ø5.5 mm) — the
+keep-out around the board's holes is tight. Torque finger-snug only: PETG strips before
+it warns you.
+
+Do not reuse Framework's original screws. They are M1.6 × 1.5 Torx T5; here the screw
+crosses 1.1 mm of PCB and the 1 mm locating tip before reaching plastic, which leaves
+under 0.5 mm of bite. Use them only as temporary alignment pins.
+
+Check before buying: nobody has verified that the PCB mounting holes pass a Ø2.0 shank.
+Try one M2 screw in one hole first. If it won't pass, fall back to M1.6 × 5 — but drill
+the pilots to Ø1.5 first, because M1.6 cannot bite in the printed Ø1.7 hole.
+
+Serviceable upgrade, for boards that come in and out often: drill the five standoffs to
+Ø3.2, press in M2 brass heat-set inserts (~3.5 OD × 4 mm), and use M2 × 5 low-profile
+screws. The stock pilot cannot take an insert without drilling — the Ø4.2 locating tip
+is in the way.
+
+MODULE JOINTS
+Four joints: holderL–bay1, bay1–bay2, bay2–bay3, bay3–holderR. Each joint takes four
+M3 × 8 SHCS into four M3 inserts, plus two Ø3 × 8 dowel pins for alignment. The inserts
+sit in each bay's right wall (12) and in the left holder (4). Press them at ~250 °C and
+brace the wall — only 0.8 mm of web stands behind the holes.
+
+- Drive seam screws from inside the right-hand module of each pair (heads end up in
+  bays 2 and 3), through the Ø3.4 holes in its left wall. Use a ball-end or stubby hex
+  driver: the screw axis is horizontal inside a 114 mm bay.
+- Drive the left holder's screws from inside bay 1; drive the right holder's from
+  outside through its counterbores. Its two front screws pass through Ø6 channels
+  crossing the intake plenum.
+- Use M3 × 8, not M3 × 10. The 8 gives ~4 mm of engagement and stays inside the 6.2 mm
+  insert hole; a 10 blows through the 7 mm wall.
+- PETG creeps: re-torque the seam screws after the first week of warm operation.
+
+CARRIER LOCKS AND RACK
+The last three inserts go in the bay front headers; an M3 × 8 thumbscrew locks each
+carrier. Rack with the six M6 screws and cage nuts, the printed ears backed by 1.5 mm
+metal plates, snug torque only.

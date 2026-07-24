@@ -1,99 +1,107 @@
 # Framework 13 Mainboard — 3-Bay 1U Rack
 
-A 19" EIA-310 1U rack holding three Framework Laptop 13 mainboards, every part printable
-on a Bambu Lab H2D (325 x 320 x 325). Designed 2026-06-11/12 from Framework's own tray STL
-(standoff positions measured from the import) + a multi-agent research/review workflow.
+A 19" EIA-310 1U rack that holds three Framework Laptop 13 mainboards. Every part prints
+without supports on a Bambu Lab H2D (325 × 320 × 325 mm). The geometry was measured from
+Framework's published CAD, then corrected against a physical board and real prints.
 
-## Folders
-- `stl/` — print-ready STLs of the 4 unique parts (exported from Fusion, part-local orientation)
-- `scripts/rebuild_all.py` — the parametric source: rebuilds the whole model in a fresh Fusion
-  document (Direct Modeling). Edit dimensions there and re-run.
-- `design-docs/SPEC-RevB.md` — full reviewed design spec (all dimensions, stack-ups, rationale)
-- `design-docs/final-spec-revB.json` — raw workflow output
-- `design-docs/workflow-transcripts/` — research/review agent transcripts
+## Repository layout
 
-## Parts (8 prints, 4 unique)
+- `stl/` — print-ready STLs, exported 2026-07-06 from the current script
+- `scripts/rebuild_all.py` — the source of truth. It rebuilds every part in a fresh Fusion 360
+  document (direct modeling). Edit dimensions here and re-run; set `EXPORT_STL = True` to export.
+- `design-docs/SPEC-RevB.md` — the reviewed design spec. Read the errata blocks at the top
+  first; they supersede the body. Where spec and script disagree, the script wins.
+- `design-docs/final-spec-revB.json` — raw research output behind the spec
+- `design-docs/framework-cad/` — Framework's reference CAD (tray STL, board drawing PDF/DXF,
+  case STEP) and the Node scripts that measured it
+- `SCREWS.txt` — hardware shopping list and fastener notes
+- `framework.jpg` — calibrated top-view photo of the physical board, used to locate the
+  fin stack (thermal errata 2)
+
+## Parts (8 prints plus pegs, 5 unique)
+
 | Part | Qty | Print orientation | Supports |
 |---|---|---|---|
-| BayModule (rack-tray) | 3 | standing on FRONT face (Z = 248) | none; 8-10mm brim |
-| CarrierTray | 3 | flat, plate on bed (Z = 34.5) | none |
-| SideHolderLeft (intake plenum + ear) | 1 | standing on FRONT face | none |
-| SideHolderRight (rear-exhaust duct + ear) | 1 | standing on FRONT face | none |
-| RetainerPeg (board hold-down) | 9+ (3/board + spares) | head-down on bed | none |
+| BayModule — rack tray | 3 | standing on front face (Z = 248) | none; 8–10 mm brim |
+| CarrierTray — board sled | 3 | flat, plate on bed (Z = 34.5) | none |
+| SideHolderLeft — rear-exhaust duct + rack ear | 1 | standing on front face | none |
+| SideHolderRight — intake plenum + rack ear | 1 | standing on front face | none |
+| RetainerPeg — board hold-down | 9 + spares | head down on bed | none |
 
-PETG or PETG-CF, 4 walls, 30-40% infill, 0.2 layers.
+PETG or PETG-CF, 4 walls, 30–40% infill, 0.2 mm layers.
 
-## Assembly (short version — full sequence in SPEC-RevB.md §7)
-1. Set BIOS "Power on AC attach" / standalone mode on each board BEFORE racking (SW1 is unreachable mid-rack).
-2. Heat-set inserts: 5x M3 per bay (4 seam + 1 header), 4x M3 in left holder.
-3. Bolt bays together left-to-right with M3x8 + Ø3x8 dowel pins (screws driven from inside the
-   right-hand module of each pair). Left holder screws from inside bay 1; right holder from outside.
-4. Mount boards to carriers RAM/cooler-side UP (laptop orientation): drop the board into the
-   lateral cage (side nubs + front/rear stops) onto the 5 standoffs, then press a RetainerPeg
-   through 2-3 of the board's mounting holes into the standoff pilots (no screws needed;
-   M2 x 6 self-tapping screws fit the same O1.7 pilots if preferred). 2 expansion cards face
-   the front lip openings, 2 face the rear. USB-C PD power at rear.
-5. Slide carriers in until the sideways latch clicks (left edge); lock with M3x8 thumbscrew.
-6. Rack with 6x M6 + cage nuts; back the printed ears with 1.5mm metal plates, snug torque only.
-   A rear support is required for any rack that gets transported.
+## Assembly
 
-## Verified against Framework's official CAD (2026-06-12)
-The card-bay positions were measured from Framework's `printable_case_full.stp` (registered to the
-5 mounting bosses, confirmed against the 2D drawing `fw_main_pcb_generic_2_w_fan.pdf`): bays sit at
-board-y [-1.15, 32.85] and [39.65, 73.95] on BOTH short edges. Rev C (2026-06-12) fixed a mirrored
-standoff pattern that forced the board component-side-DOWN: the 5-hole pattern is now mirrored back
-(c = 82.82 - board_y) so the board mounts in its laptop orientation — RAM/SSD/cooler UP (drawing
-sheet 3: fan +4.2 above PCB top, H=3.0 limit area on top; bottom is H=1.0), expansion cards hanging
-BELOW the PCB. The seat was raised to h16.5 (8.5mm under the board): standard cards (5.4 below PCB)
-clear by 3.1mm and the official ETHERNET CARD (~7.4 below) now FITS with ~1.1mm clearance (verify
-against your card before committing). The lip has ONLY two stadium-shaped (pill) USB-C openings,
-14 x 8 with r4 ends, on the mirrored receptacle axes (Rev D: c 35.97 / 76.77, plug axis h18.4 —
-the RAM-up aperture center is PCB-bottom+1.9; the old h14.6 sat 1.9 BELOW the PCB and missed the
-ports). These align with the board's ports directly AND with expansion-card ports (same axis). The receptacle face sits
-~8.5mm behind the lip outer face — use cables with slim overmolds (max ~13 x 7) or fit expansion
-cards (card face only ~6mm behind). Standoff bosses are O6 (Framework's own size — the expansion
-card has a corner notch for it). Reference CAD lives in design-docs/framework-cad/.
+Full sequence: SPEC-RevB.md §7. Fasteners: SCREWS.txt.
 
-## Rev D (2026-06-14) — physical-fit fixes
-Two flaws found on a real print, fixed in `scripts/rebuild_all.py` + spec (see SPEC-RevB.md Rev D summary):
-- **Board+cooler too wide.** The cooler fin-block overhangs the PCB +Y edge ~9.0mm (measured from
-  `fw_main_pcb_generic_2_w_fan.pdf` sheet 4), not the 6.7 the spec assumed → real envelope 113.86 ≈
-  the old 114 interior → zero clearance, banged the wall. Bay interior **W_int 114→118** (pitch
-  128→132), board **shifted +9.86mm** to center the asymmetric envelope (~2mm each side). Ear blades
-  shortened (26.3→20.3) to keep the faceplate at 482.6; front body 442, still 8.85mm under the rack
-  opening.
-- **USB-C openings too low.** Rev C raised the board seat to h16.5 but the tray ports stayed at
-  h14.6 (below the PCB). Aperture center moved to **h18.4** (PCB-bottom +1.9), centers shifted with
-  the board to c 35.97 / 76.77.
-- **Verify before printing** (calibrated from a rasterized drawing): the 9.0mm cooler overhang and
-  the 1.9mm USB-C aperture height. One caliper span each on the physical board confirms both.
-  The `stl/` files are now STALE — re-export from Fusion (set EXPORT_STL=True and re-run).
+1. Set "Power on AC attach" in each board's BIOS before racking — the power switch is
+   unreachable once the board is mid-rack.
+2. Press the heat-set inserts: five M3 per bay (four seam, one header), four M3 in the
+   left holder.
+3. Bolt the bays together left to right with M3×8 screws and Ø3×8 dowel pins. Drive seam
+   screws from inside the right-hand module of each pair. The left holder screws on from
+   inside bay 1, the right holder from outside through its counterbores.
+4. Mount each board RAM/cooler-side up on its carrier: drop it into the cage onto the five
+   standoffs, then press RetainerPegs through two or three mounting holes. Two expansion
+   cards face front, two face rear; USB-C power enters at the rear.
+5. Slide each carrier in until the left-edge latch clicks, then lock it with its M3×8
+   thumbscrew.
+6. Rack with six M6 screws and cage nuts. Back the printed ears with 1.5 mm metal plates
+   and snug them only. Support the rear of any rack that travels.
 
-## Build notes / deviations from spec
-- Board retention is SCREW-FREE (Rev C): the board is located laterally by a printed cage —
-  two nubs on the card-free long edges (0.2mm clearance/side) and front/rear stops in the
-  43.2-50.0 gap between the card bays (0.5mm clearance) — and held down by RetainerPegs:
-  O4.2 head on the screw-keepout annulus, tapered shaft (O1.85 -> O1.55) press-fit ~3mm into
-  the O1.7 standoff pilot through the board hole. Use 2-3 pegs per board (diagonal). Pegs are
-  consumable-ish: print spares; pry under the head to remove.
-- Screw option: the same O1.7 pilots take M2 x 6 pan-head SELF-TAPPING screws (thread passes the
-  board's mounting holes, head fits the O4.4 keepout). UK sources: Accu (accu.co.uk), Amazon UK /
-  eBay "M2x6 self tapping pan head". For M2 heat-set inserts instead, drill the standoff O3.2
-  and skip the tip.
-- Cage caveat: the side nubs and stops bear only on the board's EDGES (never the top face), so
-  top-side components can't clash; peg heads land where Framework's own screw heads sit.
-- Left-holder grille: 3 slots on the front face + 2 on the outboard face (spec's 5 front slots
-  don't fit the 15mm box width); total intake area 390 mm² as specced.
-- Latch relief slot extended to the plate front edge (y0) so the beam is genuinely cantilevered.
-- CarrierTray is lightweighted: 4 through-windows in the plate mid-section (6mm ribs, Ø16 island
-  under the interior standoff, anchored to the right margin), ~57 cm³ solid volume. Load paths
-  (edge tongues, front/rear bands, latch zone, standoff islands) are untouched.
-- Omitted as print/slicer details: 0.5mm elephant-foot chamfers, optional floor perforation grid,
-  +0.2 vertical oversize on horizontal-axis holes (drill/ream Ø3 dowel sockets if pins won't enter).
+## How the board mounts
 
-## Open questions before committing plastic (SPEC-RevB.md bottom)
-Verify against your actual hardware: PCB mounting-hole diameters (pegs/M2 assume >= O2.0 clear),
-Ethernet card below-board envelope (~7.4 assumed), card-face overhang 4.45mm, board outline at the
-cage contact points (nubs at y118.5-121.5 on the long edges, stops at c44.4-48.7 on the short
-edges). Print the 20-min fit coupon first: groove+tongue at 0.15/0.20/0.25/0.30 clearance, latch
-beam section, one standoff + RetainerPeg press-fit, insert pocket.
+The carrier locates the board with a printed cage: two side nubs on the card-free long
+edges (0.2 mm clearance per side) and front/rear stops between the card bays (0.5 mm).
+RetainerPegs hold it down — a Ø4.2 head over the screw keep-out, a tapered Ø1.85→1.55
+shaft press-fit into the Ø1.7 standoff pilot. The cage bears only on the board's edges,
+never its face, and peg heads land where Framework's own screw heads sit. Pegs are
+consumable: print spares, pry under the head to remove. The same pilots accept M2×6
+self-tapping screws (see SCREWS.txt).
+
+The board sits component-side up at h16.5, its laptop orientation, with expansion cards
+hanging below. Standard cards (5.4 mm below the PCB) clear the carrier floor by 3.1 mm;
+Framework's Ethernet card (~7.4 mm) clears by about 1.1 — check yours first. Each carrier
+lip has two 14 × 8 stadium openings on the USB-C axes (centers c 32.95 / 73.75, height
+h19.6 ≈ 2 mm above the PCB top); expansion-card ports share the same axes. The receptacle
+face sits ~8.5 mm behind the lip and the card face ~6 mm, so use cables with slim
+overmolds (≤ ~13 × 7 mm) or fit expansion cards.
+
+## Revision history
+
+Every fix below came from real hardware. The spec body lags them; its errata blocks and
+`rebuild_all.py` are current.
+
+- **Rev C (2026-06-12).** The standoff pattern was mirrored and forced the board
+  component-side down. Corrected to c = 82.82 − board_y (laptop orientation) and the seat
+  raised to h16.5. Board and card-bay positions verified against Framework's
+  `printable_case_full.stp` and 2D drawing.
+- **Rev D (2026-06-14) — abandoned.** Widened the bay (W_int 114→118, pitch 128→132) to
+  clear the cooler. That changed the outer envelope, so nothing fit the bays already
+  printed. Reverted in full.
+- **Recenter (2026-06-15).** Fixed both Rev D flaws inside unchanged outer dimensions.
+  The cooler overhangs the fan-side edge by 7 mm (measured), so every board-locating
+  feature shifted +6.84 mm in carrier-c, centering the 111.83 mm envelope in the 114 mm
+  interior (~1.1 mm per side). USB-C apertures raised to h19.6. Vent print-tops chamfered
+  to self-supporting 12 mm lintels.
+- **Thermal errata (2026-07-05).** The spec's airflow was mirrored: the fin jets blow
+  LEFT. Holder roles swapped — left is now the rear-exhaust duct, right the intake plenum
+  (3 front + 2 outboard slots, 390 mm²). The right holder's front screws pass through Ø6
+  channels crossing the plenum. Preheat cascades 3→2→1, so watch bay 1 temperatures on
+  first bring-up.
+- **Vent relocation (2026-07-06).** The fin stack sits in the front half of the bay
+  (y ≈ 28–101 from the faceplate, measured from `framework.jpg`), not mid-board. All wall
+  vents and holder cutouts moved to y 31–105 (h 13–31); the left duct now starts at y 14.
+  **Bays printed before this date vent the wrong spot — reprint them before loaded
+  operation.**
+
+## Verify before committing plastic
+
+- Print the 20-minute fit coupon first: groove and tongue at 0.15/0.20/0.25/0.30 mm
+  clearance, the latch beam section, one standoff with a RetainerPeg, one insert pocket.
+- Check that your PCB mounting holes pass a Ø2.0 shank; pegs and M2 screws assume it.
+- Confirm the Ethernet card's below-board height (~7.4 mm assumed) and the board outline
+  at the cage contacts (nubs at y 118.5–121.5 on the long edges, stops at c 44.4–48.7).
+- Elephant-foot chamfers, floor perforation, and +0.2 mm vertical oversize on
+  horizontal-axis holes are left to the slicer; drill or ream the Ø3 dowel sockets if the
+  pins won't enter.
