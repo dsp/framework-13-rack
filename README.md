@@ -4,6 +4,8 @@ A 19" EIA-310 1U rack that holds three Framework Laptop 13 mainboards. All parts
 without supports on a Bambu Lab H2D (325 × 320 × 325 mm). Dimensions come from
 Framework's published CAD and from measurements of a physical board.
 
+![Three Framework 13 mainboards installed in the rack](images/rack-with-boards.jpg)
+
 ## Contents
 
 - `stl/` — print-ready STLs, exported 2026-07-06
@@ -15,6 +17,7 @@ Framework's published CAD and from measurements of a physical board.
 - `design-docs/framework-cad/` — Framework's reference CAD (tray STL, board drawing
   PDF/DXF, case STEP) and the scripts used to measure it
 - `SCREWS.txt` — hardware list and fastener notes
+- `images/` — photos of the assembled rack
 - `framework.jpg` — top-view photo of the mainboard, used to locate the cooler fin stack
 
 ## Parts
@@ -32,6 +35,8 @@ Print in PETG or PETG-CF with 4 walls and 30–40% infill. A standard PETG profi
 
 Bays printed from STLs older than 2026-07-06 have their wall vents behind the cooler
 instead of over it; reprint them before running boards under load.
+
+![The assembled three-bay rack, front view](images/rack-assembled.jpg)
 
 ## Assembly
 
