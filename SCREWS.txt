@@ -25,7 +25,7 @@ Check before buying: nobody has verified that the PCB mounting holes pass a Ø2.
 Try one M2 screw in one hole first. If it won't pass, fall back to M1.6 × 5 — but drill
 the pilots to Ø1.5 first, because M1.6 cannot bite in the printed Ø1.7 hole.
 
-Serviceable upgrade, for boards that come in and out often: drill the five standoffs to
+Serviceable upgrade (for boards that come in and out often): drill the five standoffs to
 Ø3.2, press in M2 brass heat-set inserts (~3.5 OD × 4 mm), and use M2 × 5 low-profile
 screws. The stock pilot cannot take an insert without drilling — the Ø4.2 locating tip
 is in the way.
@@ -48,5 +48,5 @@ brace the wall — only 0.8 mm of web stands behind the holes.
 
 CARRIER LOCKS AND RACK
 The last three inserts go in the bay front headers; an M3 × 8 thumbscrew locks each
-carrier. Rack with the six M6 screws and cage nuts, the printed ears backed by 1.5 mm
-metal plates, snug torque only.
+carrier. Rack with the six M6 screws and cage nuts; back the printed ears with 1.5 mm
+metal plates and tighten only until snug.

@@ -1,8 +1,8 @@
 # Framework 13 Mainboard — 3-Bay 1U Rack
 
 A 19" EIA-310 1U rack that holds three Framework Laptop 13 mainboards. Every part prints
-without supports on a Bambu Lab H2D (325 × 320 × 325 mm). The geometry was measured from
-Framework's published CAD, then corrected against a physical board and real prints.
+without supports on a Bambu Lab H2D (325 × 320 × 325 mm). The geometry comes from
+Framework's published CAD, corrected against a physical board and real prints.
 
 ## Repository layout
 
@@ -46,8 +46,8 @@ Full sequence: SPEC-RevB.md §7. Fasteners: SCREWS.txt.
    cards face front, two face rear; USB-C power enters at the rear.
 5. Slide each carrier in until the left-edge latch clicks, then lock it with its M3×8
    thumbscrew.
-6. Rack with six M6 screws and cage nuts. Back the printed ears with 1.5 mm metal plates
-   and snug them only. Support the rear of any rack that travels.
+6. Rack with six M6 screws and cage nuts. Back the printed ears with 1.5 mm metal plates;
+   tighten only until snug. Support the rear of any rack that travels.
 
 ## How the board mounts
 
@@ -56,7 +56,7 @@ edges (0.2 mm clearance per side) and front/rear stops between the card bays (0.
 RetainerPegs hold it down — a Ø4.2 head over the screw keep-out, a tapered Ø1.85→1.55
 shaft press-fit into the Ø1.7 standoff pilot. The cage bears only on the board's edges,
 never its face, and peg heads land where Framework's own screw heads sit. Pegs are
-consumable: print spares, pry under the head to remove. The same pilots accept M2×6
+consumable: print spares; pry under the head to remove. The same pilots accept M2×6
 self-tapping screws (see SCREWS.txt).
 
 The board sits component-side up at h16.5, its laptop orientation, with expansion cards
@@ -72,22 +72,22 @@ overmolds (≤ ~13 × 7 mm) or fit expansion cards.
 Every fix below came from real hardware. The spec body lags them; its errata blocks and
 `rebuild_all.py` are current.
 
-- **Rev C (2026-06-12).** The standoff pattern was mirrored and forced the board
-  component-side down. Corrected to c = 82.82 − board_y (laptop orientation) and the seat
-  raised to h16.5. Board and card-bay positions verified against Framework's
+- **Rev C (2026-06-12).** The mirrored standoff pattern forced the board component-side
+  down. Rev C restored the true map, c = 82.82 − board_y (laptop orientation), raised the
+  seat to h16.5, and verified the board and card-bay positions against Framework's
   `printable_case_full.stp` and 2D drawing.
 - **Rev D (2026-06-14) — abandoned.** Widened the bay (W_int 114→118, pitch 128→132) to
   clear the cooler. That changed the outer envelope, so nothing fit the bays already
   printed. Reverted in full.
 - **Recenter (2026-06-15).** Fixed both Rev D flaws inside unchanged outer dimensions.
-  The cooler overhangs the fan-side edge by 7 mm (measured), so every board-locating
+  Because the cooler overhangs the fan-side edge by 7 mm (measured), every board-locating
   feature shifted +6.84 mm in carrier-c, centering the 111.83 mm envelope in the 114 mm
   interior (~1.1 mm per side). USB-C apertures raised to h19.6. Vent print-tops chamfered
   to self-supporting 12 mm lintels.
 - **Thermal errata (2026-07-05).** The spec's airflow was mirrored: the fin jets blow
   LEFT. Holder roles swapped — left is now the rear-exhaust duct, right the intake plenum
   (3 front + 2 outboard slots, 390 mm²). The right holder's front screws pass through Ø6
-  channels crossing the plenum. Preheat cascades 3→2→1, so watch bay 1 temperatures on
+  channels crossing the plenum. Preheat now cascades 3→2→1; watch bay 1 temperatures on
   first bring-up.
 - **Vent relocation (2026-07-06).** The fin stack sits in the front half of the bay
   (y ≈ 28–101 from the faceplate, measured from `framework.jpg`), not mid-board. All wall
