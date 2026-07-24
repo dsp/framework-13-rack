@@ -10,7 +10,21 @@
 #   unchanged carrier outer envelope by shifting every board-locating feature +SHIFT(6.84) in c to
 #   center the 111.83 board+cooler envelope in the 114 interior (~1.09mm/side), and the USB-C
 #   apertures are raised to local z-center UZC(14.6) = chassis h19.6 (~2mm above PCB top).
-# Spec: ../design-docs/SPEC-RevB.md
+# THERMAL FIX (2026-07-05): the fin jet blows toward the bay's LEFT wall (board maps c = 82.82 -
+#   board_y, the mirror of SPEC RevB section 0's stated handedness, proven by the as-built standoffs
+#   + the user-measured 7mm cooler overhang on the low-c edge). SPEC section 6 routed airflow for the
+#   mirror image, so the intake plenum sat in bay 1's hot exhaust jet. Fix = swap the two holders'
+#   outboard boxes: LEFT holder now carries the rear-exhaust duct, RIGHT holder the front-intake
+#   plenum. Attachment hardware, plates, ears, EIA slots and outer envelopes unchanged;
+#   the right holder's two front screws (y25) get sealed tubes + O6 driver channels through the box.
+# VENT RELOCATION (2026-07-05): the fin stack is NOT centered on the board long axis - measured from
+#   the user's board photo (calibrated to the 226.9 edge) + the DXF fan arcs, fins span bay depth
+#   y ~28..101 (front half, over the fan). The old vents (y85-155, from the SPEC's centered-cooler
+#   assumption) faced only ~16mm of the 74mm fin stack. All 4 wall-vent cutouts (bay L/R, both holder
+#   plates) moved to y31..105 (y25 screw row keeps a 3mm web; corbel roof now y102..105), and the
+#   left holder's duct box/prow/cavity pulled forward (box y14..215, prow 14..29, cavity 31..215.5)
+#   to receive the jet. Bay outer envelope unchanged, but already-printed bays have the old vent.
+# Spec: ../design-docs/SPEC-RevB.md (sections 0/5/6 airflow handedness superseded by the note above)
 
 import adsk.core, adsk.fusion, math, os
 
@@ -162,15 +176,15 @@ def run(_context):
     pw = box(1.2, 16.5, 5, 3, 18.3, 8.4)                 # 45deg chamfer on pocket rear face
     halfspace_cut(pw, (3, 18.3, 5), (1.2, 16.5, 5), (0, 0, 1))
     cut(t, pw)
-    cut(t, box(-1, 85, 13, 8, 152, 31))                  # wall vent L (rect body; top corbelled below)
-    ventL = box(-1, 152, 13, 8, 155, 31)                 # 45deg roof: 18->12mm lintel, self-supporting in the y-up print
-    halfspace_cut(ventL, (0, 152, 13), (0, 155, 16), (1, 0, 0))   # lower ramp
-    halfspace_cut(ventL, (0, 155, 28), (0, 152, 31), (1, 0, 0))   # upper ramp
+    cut(t, box(-1, 31, 13, 8, 102, 31))                  # wall vent L on the fin jet (y31..105; rect body, top corbelled below)
+    ventL = box(-1, 102, 13, 8, 105, 31)                 # 45deg roof: 18->12mm lintel, self-supporting in the y-up print
+    halfspace_cut(ventL, (0, 102, 13), (0, 105, 16), (1, 0, 0))   # lower ramp
+    halfspace_cut(ventL, (0, 105, 28), (0, 102, 31), (1, 0, 0))   # upper ramp
     cut(t, ventL)
-    cut(t, box(120, 85, 13, 129, 152, 31))               # wall vent R (rect body; top corbelled below)
-    ventR = box(120, 152, 13, 129, 155, 31)
-    halfspace_cut(ventR, (120, 152, 13), (120, 155, 16), (1, 0, 0))
-    halfspace_cut(ventR, (120, 155, 28), (120, 152, 31), (1, 0, 0))
+    cut(t, box(120, 31, 13, 129, 102, 31))               # wall vent R (rect body; top corbelled below)
+    ventR = box(120, 102, 13, 129, 105, 31)
+    halfspace_cut(ventR, (120, 102, 13), (120, 105, 16), (1, 0, 0))
+    halfspace_cut(ventR, (120, 105, 28), (120, 102, 31), (1, 0, 0))
     cut(t, ventR)
     cut(t, box(15, -1, 34, 55, 6.5, 40))                 # header intake slot 1 (about x64 tab)
     cut(t, box(73, -1, 34, 113, 6.5, 40))                # header intake slot 2
@@ -186,24 +200,23 @@ def run(_context):
     cut(t, box(105, 242, -0.5, 109, 246, 3.5))           # zip-tie slot
     bay, bay_occ = add_comp('BayModule', t)
 
-    # ============ SideHolderLeft (intake plenum + ear) ============
+    # ============ SideHolderLeft (REAR-exhaust duct + ear; thermal fix 2026-07-05) ============
     # local: x0 = inner face against bay1; plate x -8..0; box x -23..-8; blade to -49.3
+    # The fin jets blow LEFT and sit at y28..101, so bay 1's jet exits here: duct y14-215, open rear end, no grille.
     t = box(-8, 0, 0, 0, 248, 43.2)                      # plate
-    uni(t, box(-23, 0, 0, -8, 160, 43.2))                # plenum box
-    cut(t, box(-20, 3, 3, -8, 157, 40.2))                # cavity 12 x 37.2
-    for x1, x2 in ((-19.25, -16.25), (-15.5, -12.5), (-11.75, -8.75)):
-        cut(t, box(x1, -0.5, 8.6, x2, 3.5, 34.6))        # front grille 3x (3 x 26)
-    for y1, y2 in ((6, 9), (14, 17)):
-        cut(t, box(-23.5, y1, 8.6, -19.5, y2, 34.6))     # outboard slots 2x (3 x 26)
-    cut(t, box(-8.5, 85, 13, 0.5, 152, 31))   # rect body; top corbelled below
-    vcL = box(-8.5, 152, 13, 0.5, 155, 31)     # matching 45deg roof -> 12mm lintel
-    halfspace_cut(vcL, (0, 152, 13), (0, 155, 16), (1, 0, 0))
-    halfspace_cut(vcL, (0, 155, 28), (0, 152, 31), (1, 0, 0))
-    cut(t, vcL)                  # plate cutout = bay-1 wall vent
-    uni(t, box(-49.3, 0, 0, -23, 6, 43.2))               # ear blade (v5 span 26.3)
-    for z1, z2 in ((0, 5), (39.2, 43.2)):                # gussets
-        g = box(-49.3, 6, z1, -23, 31, z2)
-        halfspace_cut(g, (-23, 31, z1), (-49.3, 6, z1), (0, 0, 1))
+    uni(t, box(-49.3, 0, 0, -8, 6, 43.2))                # front panel + ear blade (span 26.3 + box cover)
+    bx = box(-23, 14, 0, -8, 215, 43.2)                  # duct box (front edge behind the panel, prow-supported)
+    halfspace_cut(bx, (-23, 29, 0), (-8, 14, 0), (0, 0, 1))  # 45deg prow
+    uni(t, bx)
+    cut(t, box(-20, 31, 3, -8, 215.5, 40.2))             # cavity 12 x 37.2, open rear end
+    cut(t, box(-8.5, 31, 13, 0.5, 102, 31))   # rect body; top corbelled below
+    vcL = box(-8.5, 102, 13, 0.5, 105, 31)     # matching 45deg roof -> 12mm lintel
+    halfspace_cut(vcL, (0, 102, 13), (0, 105, 16), (1, 0, 0))
+    halfspace_cut(vcL, (0, 105, 28), (0, 102, 31), (1, 0, 0))
+    cut(t, vcL)                  # plate cutout = bay-1 wall vent (feeds the duct)
+    for z1, z2 in ((0, 5), (39.2, 43.2)):                # gussets blade->plate
+        g = box(-33, 6, z1, -8, 31, z2)
+        halfspace_cut(g, (-8, 31, z1), (-33, 6, z1), (0, 0, 1))
         uni(t, g)
     for zc in (5.725, 21.6, 37.475):                     # EIA ear slots 10x7 (u=-232.55, holder at world -192)
         cut(t, box(-45.55, -0.5, zc-3.5, -35.55, 6.5, zc+3.5))
@@ -213,28 +226,36 @@ def run(_context):
         cut(t, cyl((0.5, y, z), (-4.2, y, z), 1.575))    # dowel sockets
     holderL, holderL_occ = add_comp('SideHolderLeft', t)
 
-    # ============ SideHolderRight (rear-exhaust duct + ear) ============
+    # ============ SideHolderRight (front-intake plenum + ear; thermal fix 2026-07-05) ============
     # local: x0 = inner face against bay3; plate x 0..8; box x 8..23; blade to 49.3
+    # Fresh cold-aisle air enters the grille and feeds bay 3's right vent (makeup air for the fin jet).
     t = box(0, 0, 0, 8, 248, 43.2)                       # plate
-    uni(t, box(8, 0, 0, 49.3, 6, 43.2))                  # front panel + ear blade (v5 outer 49.3)
-    bx = box(8, 45, 0, 23, 215, 43.2)                    # duct box
-    halfspace_cut(bx, (8, 45, 0), (23, 60, 0), (0, 0, 1))  # 45deg prow
-    uni(t, bx)
-    cut(t, box(8, 63, 3, 20, 215.5, 40.2))               # cavity, open rear end
-    cut(t, box(-0.5, 85, 13, 8.5, 152, 31))   # rect body; top corbelled below
-    vcR = box(-0.5, 152, 13, 8.5, 155, 31)     # matching 45deg roof -> 12mm lintel
-    halfspace_cut(vcR, (0, 152, 13), (0, 155, 16), (1, 0, 0))
-    halfspace_cut(vcR, (0, 155, 28), (0, 152, 31), (1, 0, 0))
+    uni(t, box(8, 0, 0, 23, 160, 43.2))                  # plenum box
+    cut(t, box(8, 3, 3, 20, 157, 40.2))                  # cavity 12 x 37.2
+    for x1, x2 in ((8.75, 11.75), (12.5, 15.5), (16.25, 19.25)):
+        cut(t, box(x1, -0.5, 8.6, x2, 3.5, 34.6))        # front grille 3x (3 x 26)
+    for y1, y2 in ((6, 9), (14, 17)):
+        cut(t, box(19.5, y1, 8.6, 23.5, y2, 34.6))       # outboard slots 2x (3 x 26)
+    cut(t, box(-0.5, 31, 13, 8.5, 102, 31))   # rect body; top corbelled below
+    vcR = box(-0.5, 102, 13, 8.5, 105, 31)     # matching 45deg roof -> 12mm lintel
+    halfspace_cut(vcR, (0, 102, 13), (0, 105, 16), (1, 0, 0))
+    halfspace_cut(vcR, (0, 105, 28), (0, 102, 31), (1, 0, 0))
     cut(t, vcR)                  # plate cutout = bay-3 wall vent
-    for z1, z2 in ((0, 5), (39.2, 43.2)):                # gussets blade->plate (v5 leg 25)
-        g = box(8, 6, z1, 33, 31, z2)
-        halfspace_cut(g, (33, 6, z1), (8, 31, z1), (0, 0, 1))
+    uni(t, box(23, 0, 0, 49.3, 6, 43.2))                 # ear blade (v5 outer 49.3)
+    for z1, z2 in ((0, 5), (39.2, 43.2)):                # gussets blade->box
+        g = box(23, 6, z1, 49.3, 31, z2)
+        halfspace_cut(g, (49.3, 6, z1), (23, 31, z1), (0, 0, 1))
         uni(t, g)
+    for z in (18, 36):                                   # sealed screw tubes through the plenum at y25
+        uni(t, cyl((8, 25, z), (23, 25, z), 5))          # O10 tube (2.0 wall around the channel)
     for zc in (5.725, 21.6, 37.475):                     # EIA ear slots 10x7 (u=+232.55, holder at world 192)
         cut(t, box(35.55, -0.5, zc-3.5, 45.55, 6.5, zc+3.5))
     for y, z in [(25, 18), (220, 18), (25, 36), (220, 36)]:
         cut(t, cyl((-0.5, y, z), (8.5, y, z), 1.7))      # O3.4 through
-        cut(t, cyl((4, y, z), (8.6, y, z), 3.0))         # cb O6.0 x 4.0 from outside
+        if y == 25:                                      # plenum covers these: O6 head+driver channel
+            cut(t, cyl((4, y, z), (23.5, y, z), 3.0))    # to the outboard face (grip 4.0 unchanged)
+        else:
+            cut(t, cyl((4, y, z), (8.6, y, z), 3.0))     # cb O6.0 x 4.0 from outside
     for y, z in [(12, 38), (190, 38)]:
         cut(t, cyl((-0.5, y, z), (4.2, y, z), 1.575))
     holderR, holderR_occ = add_comp('SideHolderRight', t)
