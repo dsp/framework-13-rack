@@ -27,7 +27,8 @@ Framework's published CAD and from measurements of a physical board.
 | SideHolderRight — intake plenum + rack ear | 1 | standing on front face | none |
 | RetainerPeg — board hold-down | 9 + spares | head down on bed | none |
 
-Print in PETG or PETG-CF with 4 walls, 30–40% infill, and 0.2 mm layers.
+Print in PETG or PETG-CF with 4 walls and 30–40% infill. A standard PETG profile at
+0.4 mm layers works; the spec assumed 0.2 mm but the parts don't need it.
 
 Bays printed from STLs older than 2026-07-06 have their wall vents behind the cooler
 instead of over it; reprint them before running boards under load.
